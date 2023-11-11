@@ -46,6 +46,8 @@ class HomePage extends StatelessWidget {
                     children: docs
                         .map(
                           (doc) => GestureDetector(
+                            onTap: () => Navigator.of(context)
+                                .pushNamed('/product', arguments: doc['code']),
                             // onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => )),
                             child: Column(
                               children: [
@@ -101,12 +103,10 @@ class HomePage extends StatelessWidget {
                                     Text(
                                       'Propósito:',
                                       style: productPreviewStyle,
-                                      textAlign: TextAlign.start,
                                     ),
                                     Text(
                                       doc['purpose'],
                                       style: productPreviewStyle,
-                                      overflow: TextOverflow.clip,
                                     ),
                                   ],
                                 ),
@@ -128,6 +128,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         fixedColor: Color(0xFFB8ECBC),
         currentIndex: selectedOption,
         items: [

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:showing_cosmetics/home.dart';
+import 'package:showing_cosmetics/product.dart';
 
 const FirebaseOptions firebaseConfig = FirebaseOptions(
     apiKey: "AIzaSyDqaJjcE5KUlGqsLPRK_HiSOxz6XfhTb0I",
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/home': (context) => HomePage(),
+        '/product': (context) => ProductPage(),
       },
       initialRoute: '/home',
     );
