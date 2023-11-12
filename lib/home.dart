@@ -7,7 +7,7 @@ import 'style.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
   final db = FirebaseFirestore.instance;
-  int selectedOption = 1;
+  // int selectedOption = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +15,13 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             header,
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
               constraints: BoxConstraints(
-                maxWidth: 400,
-                maxHeight: 22,
+                maxHeight: 30,
               ),
               child: SearchBar(
                 backgroundColor: MaterialStateProperty.all(Color(0xFFB8ECBC)),
@@ -48,9 +49,12 @@ class HomePage extends StatelessWidget {
                           (doc) => GestureDetector(
                             onTap: () => Navigator.of(context)
                                 .pushNamed('/product', arguments: doc['code']),
-                            // onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => )),
                             child: Column(
                               children: [
+                                Container(
+                                  color: Color(0xFF43C54D),
+                                  height: 1,
+                                ),
                                 Container(
                                   margin: EdgeInsets.fromLTRB(40, 20, 50, 0),
                                   child: Column(
@@ -110,11 +114,7 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(0, 13, 0, 21),
-                                  color: Color(0xFF43C54D),
-                                  height: 1,
-                                ),
+                                SizedBox(height: 10)
                               ],
                             ),
                           ),
@@ -127,25 +127,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        fixedColor: Color(0xFFB8ECBC),
-        currentIndex: selectedOption,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu, color: Colors.black),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.black),
-            label: 'Início',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star, color: Colors.black),
-            label: 'Favoritos',
-          )
-        ],
-      ),
+      bottomNavigationBar: navBar,
     );
   }
 }

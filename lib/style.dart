@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-const titleStyle = TextStyle(
+const showingCosmeticsStyle = TextStyle(
   fontFamily: 'Cookie',
   fontSize: 36,
   fontStyle: FontStyle.normal,
@@ -16,8 +16,8 @@ final header = Container(
     children: [
       Column(
         children: [
-          Text('Showing', style: titleStyle),
-          Text('Cosmetics', style: titleStyle),
+          Text('Showing', style: showingCosmeticsStyle),
+          Text('Cosmetics', style: showingCosmeticsStyle),
         ],
       ),
       Container(width: 60, height: 60, child: Image.asset('images/logo.png'))
@@ -53,4 +53,32 @@ const productPreviewStyle = TextStyle(
   fontSize: 12,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
+);
+
+const titleStyle = TextStyle(
+  color: Color(0xFF007B09),
+  fontFamily: 'Andada Pro',
+  fontSize: 20,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w400,
+);
+
+final navBar = BottomNavigationBar(
+  backgroundColor: Colors.white,
+  fixedColor: Color(0xFFB8ECBC),
+  currentIndex: 1,
+  items: [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.menu, color: Colors.black),
+      label: 'Menu',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home, color: Colors.black),
+      label: 'Início',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.star, color: Colors.black),
+      label: 'Favoritos',
+    )
+  ],
 );

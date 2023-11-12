@@ -4,23 +4,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'style.dart';
 
-class ProductPage extends StatelessWidget {
-  ProductPage({super.key});
+class MenuPage extends StatelessWidget {
+  MenuPage({super.key});
   final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
-    final String code = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             header,
-            Text('Teste: $code'),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 148),
+              child: Text(
+                'Categorias',
+                style: titleStyle,
+              ),
+            )
           ],
         ),
       ),
+      bottomNavigationBar: navBar,
     );
   }
 }

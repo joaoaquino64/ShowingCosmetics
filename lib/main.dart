@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:showing_cosmetics/category.dart';
 import 'package:showing_cosmetics/home.dart';
+import 'package:showing_cosmetics/menu.dart';
 import 'package:showing_cosmetics/product.dart';
 
 const FirebaseOptions firebaseConfig = FirebaseOptions(
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/product': (context) => ProductPage(),
+        'menu': (context) => MenuPage(),
+        'category': (context) => CategoryPage(),
       },
       initialRoute: '/home',
     );
