@@ -4,10 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'style.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
   final db = FirebaseFirestore.instance;
-  // int selectedOption = 1;
+
+  @override
+  State<HomePage> createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+  final db = FirebaseFirestore.instance;
+  int selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +134,44 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: navBar,
+      bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        selectedFontSize: 20,
+        selectedIconTheme: IconThemeData(color: Color(0xFFB8ECBC), size: 30),
+        selectedItemColor: Color(0xFFB8ECBC),
+        iconSize: 20,
+        backgroundColor: Colors.white,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Início',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: 'Favoritos',
+          )
+        ],
+        currentIndex: selectedIndex,
+        onTap: (int index) {
+          setState(() {
+            selectedIndex = index;
+
+            if (index == 0) {
+              Navigator.of(context).pushNamed('/menu');
+            } else if (index == 1) {
+              Navigator.of(context).pushNamed('/home');
+            }
+            //else if (index == 2) {
+            //   Navigator.of(context).pushNamed('/add');
+            // }
+          });
+        },
+      ),
     );
   }
 }
