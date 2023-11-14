@@ -14,7 +14,9 @@ class CategoryPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          children: [],
+          children: [
+            header,
+          ],
         ),
       ),
     );

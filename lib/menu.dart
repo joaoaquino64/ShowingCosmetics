@@ -22,7 +22,7 @@ class MenuPageState extends State<MenuPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             header,
             Container(
@@ -32,7 +32,47 @@ class MenuPageState extends State<MenuPage> {
                 style: titleStyle,
               ),
             ),
-            // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>()
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: db.collection('products').orderBy('form').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return CircularProgressIndicator();
+
+                var docs = snapshot.data!.docs;
+
+                return Expanded(
+                  child: ListView(
+                    children: docs
+                        .map(
+                          (doc) => Column(
+                            children: [
+                              Container(
+                                color: Color(0xFF43C54D),
+                                height: 1,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(doc['form']),
+                                    ElevatedButton(
+                                      onPressed: () => Navigator.of(context)
+                                          .pushNamed('/product',
+                                              arguments: doc['code']),
+                                      child: Image.asset('images/arrow.png'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
