@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final db = FirebaseFirestore.instance;
+  final txtSearchCtrl = TextEditingController();
   int selectedIndex = 1;
 
   @override
@@ -33,6 +34,11 @@ class HomePageState extends State<HomePage> {
               child: SearchBar(
                 backgroundColor: MaterialStateProperty.all(Color(0xFFB8ECBC)),
                 leading: Icon(Icons.search),
+                hintText: 'Procurar produto',
+                hintStyle: MaterialStateProperty.all(
+                  TextStyle(color: Colors.grey.withOpacity(0.5)),
+                ),
+                controller: txtSearchCtrl,
               ),
             ),
             SizedBox(
@@ -43,6 +49,7 @@ class HomePageState extends State<HomePage> {
               stream: db
                   .collection('products')
                   .orderBy('class', descending: true)
+                  // .where('name'.toLowerCase() == txtSearchCtrl.toString())
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return CircularProgressIndicator();
@@ -91,7 +98,7 @@ class HomePageState extends State<HomePage> {
                                   height: 1,
                                 ),
                                 Container(
-                                  margin: EdgeInsets.fromLTRB(51, 0, 15, 0),
+                                  margin: EdgeInsets.symmetric(horizontal: 40),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -105,7 +112,7 @@ class HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 53),
+                                  margin: EdgeInsets.symmetric(horizontal: 40),
                                   color: Color(0xFF43C54D),
                                   height: 1,
                                 ),

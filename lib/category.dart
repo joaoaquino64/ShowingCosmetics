@@ -10,13 +10,12 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String form = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          children: [
-            header,
-          ],
+          children: [header, Text(form)],
         ),
       ),
     );

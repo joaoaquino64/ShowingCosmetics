@@ -42,7 +42,7 @@ const productClassStyle = TextStyle(
 
 const productNameStyle = TextStyle(
   fontFamily: 'Andada Pro',
-  fontSize: 13,
+  fontSize: 15,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
 );
@@ -57,6 +57,13 @@ const productPreviewStyle = TextStyle(
 
 const titleStyle = TextStyle(
   color: Color(0xFF007B09),
+  fontFamily: 'Andada Pro',
+  fontSize: 20,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w400,
+);
+
+const categoryStyle = TextStyle(
   fontFamily: 'Andada Pro',
   fontSize: 20,
   fontStyle: FontStyle.normal,

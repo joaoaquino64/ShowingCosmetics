@@ -15,6 +15,7 @@ class MenuPage extends StatefulWidget {
 class MenuPageState extends State<MenuPage> {
   final db = FirebaseFirestore.instance;
   int selectedIndex = 0;
+  List<String> categories = [];
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,10 @@ class MenuPageState extends State<MenuPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             header,
+            SizedBox(height: 40),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 140),
               child: Text(
@@ -32,6 +34,7 @@ class MenuPageState extends State<MenuPage> {
                 style: titleStyle,
               ),
             ),
+            SizedBox(height: 60),
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: db.collection('products').orderBy('form').snapshots(),
               builder: (context, snapshot) {
@@ -44,27 +47,37 @@ class MenuPageState extends State<MenuPage> {
                     children: docs
                         .map(
                           (doc) => Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
                                 color: Color(0xFF43C54D),
                                 height: 1,
                               ),
+                              SizedBox(height: 10),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                margin: EdgeInsets.symmetric(horizontal: 40),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(doc['form']),
-                                    ElevatedButton(
-                                      onPressed: () => Navigator.of(context)
-                                          .pushNamed('/product',
-                                              arguments: doc['code']),
-                                      child: Image.asset('images/arrow.png'),
+                                    Text(
+                                      doc['form'],
+                                      style: categoryStyle,
+                                    ),
+                                    SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                      child: GestureDetector(
+                                        onTap: () => Navigator.of(context)
+                                            .pushNamed('/category',
+                                                arguments: doc['form']),
+                                        child: Image.asset('images/arrow.png'),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
+                              SizedBox(height: 10),
                             ],
                           ),
                         )
