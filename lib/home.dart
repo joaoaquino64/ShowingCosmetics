@@ -2,11 +2,11 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:is_first_run/is_first_run.dart';
 import 'style.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
-  final db = FirebaseFirestore.instance;
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -16,6 +16,34 @@ class HomePageState extends State<HomePage> {
   final db = FirebaseFirestore.instance;
   final txtSearchCtrl = TextEditingController();
   int selectedIndex = 1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Bem vindo(a) ao Showing Cosmetics !!!',
+            style: dialogTitleStyle,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(textClas),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Color(0xFF43C54D)),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +77,6 @@ class HomePageState extends State<HomePage> {
               stream: db
                   .collection('products')
                   .orderBy('class', descending: true)
-                  // .where('name'.toLowerCase() == txtSearchCtrl.toString())
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return CircularProgressIndicator();
@@ -116,17 +143,21 @@ class HomePageState extends State<HomePage> {
                                   color: Color(0xFF43C54D),
                                   height: 1,
                                 ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      'Propósito:',
-                                      style: productPreviewStyle,
-                                    ),
-                                    Text(
-                                      doc['purpose'],
-                                      style: productPreviewStyle,
-                                    ),
-                                  ],
+                                SizedBox(height: 5),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(40, 0, 250, 0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Propósito:',
+                                          style: productPreviewStyle),
+                                      Text(
+                                        doc['purpose'],
+                                        style: productPreviewStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 10)
                               ],

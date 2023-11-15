@@ -10,7 +10,7 @@ const showingCosmeticsStyle = TextStyle(
 );
 
 final header = Container(
-  margin: EdgeInsets.fromLTRB(19, 40, 33, 31),
+  margin: EdgeInsets.fromLTRB(20, 40, 33, 31),
   child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -66,6 +66,38 @@ const titleStyle = TextStyle(
 const categoryStyle = TextStyle(
   fontFamily: 'Andada Pro',
   fontSize: 20,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w400,
+);
+
+const dialogTitleStyle = TextStyle(
+  fontFamily: 'Andada Pro',
+  fontSize: 20,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w900,
+);
+
+const textClas = '''Class 1 = Produtos SEM comprovação de eficácia\n\n
+Class 2 = Produtos COM eficácia comprovada cientificamente''';
+
+const productDetailNameStyle = TextStyle(
+  fontFamily: 'Andada Pro',
+  fontSize: 25,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w400,
+);
+
+const productDetailClassStyle = TextStyle(
+  color: Color(0xFF007B09),
+  fontFamily: 'Andada Pro',
+  fontSize: 20,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w400,
+);
+
+const productDetailStyle = TextStyle(
+  fontFamily: 'Andada Pro',
+  fontSize: 15,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
 );

@@ -71,7 +71,8 @@ class MenuPageState extends State<MenuPage> {
                                         onTap: () => Navigator.of(context)
                                             .pushNamed('/category',
                                                 arguments: doc['form']),
-                                        child: Image.asset('images/arrow.png'),
+                                        child: Image.asset(
+                                            'images/arrow_forward.png'),
                                       ),
                                     ),
                                   ],
