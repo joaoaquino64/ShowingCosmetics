@@ -82,7 +82,7 @@ class ProductPage extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Propósito:',
-                                          style: productDetailStyle,
+                                          style: productDetailFieldStyle,
                                         ),
                                         Text(
                                           doc['purpose'],
@@ -94,11 +94,87 @@ class ProductPage extends StatelessWidget {
                                         ),
                                         Text(
                                           'Ingredientes:',
-                                          style: productDetailStyle,
+                                          style: productDetailFieldStyle,
                                         ),
                                         Text(
                                           doc['ingredients'],
                                           style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          width: double.infinity,
+                                        ),
+                                        Text(
+                                          'Marca:',
+                                          style: productDetailFieldStyle,
+                                        ),
+                                        Text(
+                                          doc['brand'],
+                                          style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          width: double.infinity,
+                                        ),
+                                        Text(
+                                          'Forma física do produto:',
+                                          style: productDetailFieldStyle,
+                                        ),
+                                        Text(
+                                          doc['form'],
+                                          style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          width: double.infinity,
+                                        ),
+                                        Text(
+                                          'Grupo:',
+                                          style: productDetailFieldStyle,
+                                        ),
+                                        Text(
+                                          doc['group'],
+                                          style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          width: double.infinity,
+                                        ),
+                                        Text(
+                                          'Fabricante:',
+                                          style: productDetailFieldStyle,
+                                        ),
+                                        Text(
+                                          doc['manufacturer'],
+                                          style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          width: double.infinity,
+                                        ),
+                                        Text(
+                                          'Embalagem:',
+                                          style: productDetailFieldStyle,
+                                        ),
+                                        Text(
+                                          doc['packaging'],
+                                          style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                          width: double.infinity,
+                                        ),
+                                        Text(
+                                          'Validade:',
+                                          style: productDetailFieldStyle,
+                                        ),
+                                        Text(
+                                          '${doc['validity in months']} Meses',
+                                          style: productDetailStyle,
+                                        ),
+                                        SizedBox(
+                                          height: 50,
+                                          width: double.infinity,
                                         ),
                                       ],
                                     )

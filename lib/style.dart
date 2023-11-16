@@ -27,7 +27,7 @@ final header = Container(
 
 const productFormStyle = TextStyle(
   fontFamily: 'Andada Pro',
-  fontSize: 15,
+  fontSize: 17,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
 );
@@ -35,7 +35,7 @@ const productFormStyle = TextStyle(
 const productClassStyle = TextStyle(
   color: Color(0xFF007B09),
   fontFamily: 'Andada Pro',
-  fontSize: 13,
+  fontSize: 15,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
 );
@@ -77,7 +77,8 @@ const dialogTitleStyle = TextStyle(
   fontWeight: FontWeight.w900,
 );
 
-const textClas = '''Class 1 = Produtos SEM comprovação de eficácia\n\n
+const textClas =
+    '''Class 1 = Produtos SEM comprovação de eficácia\n\n
 Class 2 = Produtos COM eficácia comprovada cientificamente''';
 
 const productDetailNameStyle = TextStyle(
@@ -100,4 +101,11 @@ const productDetailStyle = TextStyle(
   fontSize: 15,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
+);
+
+const productDetailFieldStyle = TextStyle(
+  fontFamily: 'Andada Pro',
+  fontSize: 15,
+  fontStyle: FontStyle.normal,
+  fontWeight: FontWeight.w700,
 );
