@@ -15,7 +15,7 @@ class MenuPage extends StatefulWidget {
 class MenuPageState extends State<MenuPage> {
   final db = FirebaseFirestore.instance;
   int selectedIndex = 0;
-  List<String> categories = [];
+  List<String> forms = ['teste'];
 
   @override
   Widget build(BuildContext context) {
@@ -42,47 +42,23 @@ class MenuPageState extends State<MenuPage> {
 
                 var docs = snapshot.data!.docs;
 
+                docs.map(
+                  (doc) {
+                    if (forms.contains(doc['form'])) {
+                      forms.add(doc['form']);
+                    }
+                  },
+                );
+                print(forms);
+
                 return Expanded(
-                  child: ListView(
-                    children: docs
-                        .map(
-                          (doc) => Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                color: Color(0xFF43C54D),
-                                height: 1,
-                              ),
-                              SizedBox(height: 10),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 40),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      doc['form'],
-                                      style: categoryStyle,
-                                    ),
-                                    SizedBox(
-                                      width: 50,
-                                      height: 50,
-                                      child: GestureDetector(
-                                        onTap: () => Navigator.of(context)
-                                            .pushNamed('/category',
-                                                arguments: doc['form']),
-                                        child: Image.asset(
-                                            'images/arrow_forward.png'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
-                        )
-                        .toList(),
+                  child: ListView.builder(
+                    itemCount: forms.length,
+                    itemBuilder: (context, index) {
+                      var form = forms[index];
+
+                      return Category(form);
+                    },
                   ),
                 );
               },

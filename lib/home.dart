@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:is_first_run/is_first_run.dart';
 import 'style.dart';
 
 class HomePage extends StatefulWidget {
@@ -152,10 +151,8 @@ class HomePageState extends State<HomePage> {
                                     children: [
                                       Text('Propósito:',
                                           style: productPreviewStyle),
-                                      Text(
-                                        doc['purpose'],
-                                        style: productPreviewStyle,
-                                      ),
+                                      Text(doc['purpose'],
+                                          style: productPreviewStyle),
                                     ],
                                   ),
                                 ),

@@ -109,3 +109,42 @@ const productDetailFieldStyle = TextStyle(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w700,
 );
+
+class Category extends StatelessWidget {
+  String form;
+
+  Category(this.form);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          color: Color(0xFF43C54D),
+          height: 1,
+        ),
+        SizedBox(height: 10),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(form, style: categoryStyle),
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context)
+                      .pushNamed('/category', arguments: form),
+                  child: Image.asset('images/arrow_forward.png'),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+      ],
+    );
+  }
+}
