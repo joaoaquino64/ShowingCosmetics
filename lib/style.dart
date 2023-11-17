@@ -77,8 +77,7 @@ const dialogTitleStyle = TextStyle(
   fontWeight: FontWeight.w900,
 );
 
-const textClas =
-    '''Class 1 = Produtos SEM comprovação de eficácia\n\n
+const textClas = '''Class 1 = Produtos SEM comprovação de eficácia\n\n
 Class 2 = Produtos COM eficácia comprovada cientificamente''';
 
 const productDetailNameStyle = TextStyle(

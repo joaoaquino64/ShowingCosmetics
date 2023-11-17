@@ -2,11 +2,24 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'firestore_service.dart';
 import 'style.dart';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
   CategoryPage({super.key});
+
+  @override
+  State<CategoryPage> createState() => CategoryPageState();
+}
+
+class CategoryPageState extends State<CategoryPage> {
   final db = FirebaseFirestore.instance;
+  List<String> favoriteProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +52,6 @@ class CategoryPage extends StatelessWidget {
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: db
                   .collection('products')
-                  .orderBy('class', descending: true)
                   .where('form', isEqualTo: form)
                   .snapshots(),
               builder: (context, snapshot) {
@@ -72,6 +84,67 @@ class CategoryPage extends StatelessWidget {
                                       ],
                                     )
                                   ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 13, 0, 21),
+                                color: Color(0xFF43C54D),
+                                height: 1,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 40),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Image.asset('images/check.png'),
+                                    Text('${doc['name']} - ${doc['brand']}',
+                                        style: productNameStyle),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 40),
+                                color: Color(0xFF43C54D),
+                                height: 1,
+                              ),
+                              SizedBox(height: 5),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(40, 0, 250, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Propósito:',
+                                        style: productPreviewStyle),
+                                    Text(doc['purpose'],
+                                        style: productPreviewStyle)
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  final String productCode = doc['code'];
+
+                                  setState(() {
+                                    if (favoriteProducts
+                                        .contains(productCode)) {
+                                      favoriteProducts.remove(productCode);
+                                      FirestoreService()
+                                          .removeFromFavorites(productCode);
+                                    } else {
+                                      favoriteProducts.add(productCode);
+                                      FirestoreService()
+                                          .addToFavorites(productCode);
+                                    }
+                                  });
+                                },
+                                child: Icon(
+                                  favoriteProducts.contains(doc['code'])
+                                      ? Icons.star
+                                      : Icons.star_border,
+                                  color: const Color.fromARGB(255, 79, 255, 59),
+                                  size: 30,
                                 ),
                               ),
                             ],

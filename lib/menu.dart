@@ -6,7 +6,6 @@ import 'style.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({super.key});
-  final db = FirebaseFirestore.instance;
 
   @override
   State<MenuPage> createState() => MenuPageState();
@@ -15,7 +14,6 @@ class MenuPage extends StatefulWidget {
 class MenuPageState extends State<MenuPage> {
   final db = FirebaseFirestore.instance;
   int selectedIndex = 0;
-  List<String> forms = ['teste'];
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +24,12 @@ class MenuPageState extends State<MenuPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             header,
-            SizedBox(height: 40),
+            SizedBox(height: 40, width: double.infinity),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 140),
-              child: Text(
-                'Categorias',
-                style: titleStyle,
-              ),
+              child: Text('Categorias', style: titleStyle),
             ),
-            SizedBox(height: 60),
+            SizedBox(height: 60, width: double.infinity),
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: db.collection('products').orderBy('form').snapshots(),
               builder: (context, snapshot) {
@@ -42,24 +37,29 @@ class MenuPageState extends State<MenuPage> {
 
                 var docs = snapshot.data!.docs;
 
-                docs.map(
-                  (doc) {
-                    if (forms.contains(doc['form'])) {
-                      forms.add(doc['form']);
-                    }
-                  },
-                );
-                print(forms);
+                List<String> filtro = [];
+                List<QueryDocumentSnapshot<Map<String, dynamic>>> docsFiltrado =
+                    [];
+                docs.forEach((doc) {
+                  var formValue = doc['form'] as String?;
+                  if (formValue != null && !filtro.contains(formValue)) {
+                    filtro.add(formValue);
+                    docsFiltrado.add(doc);
+                  }
+                });
 
+                docs = docsFiltrado;
+
+                if (docs.isEmpty) {
+                  return const Center(
+                    child: Text('Nada disponível.'),
+                  );
+                }
                 return Expanded(
-                  child: ListView.builder(
-                    itemCount: forms.length,
-                    itemBuilder: (context, index) {
-                      var form = forms[index];
-
-                      return Category(form);
-                    },
-                  ),
+                  child: ListView(
+                      children: docsFiltrado
+                          .map((doc) => Category(doc['form']))
+                          .toList()),
                 );
               },
             )
@@ -97,6 +97,8 @@ class MenuPageState extends State<MenuPage> {
               Navigator.of(context).pushNamed('/menu');
             } else if (index == 1) {
               Navigator.of(context).pushNamed('/home');
+            } else if (index == 2) {
+              Navigator.of(context).pushNamed('/favorite');
             }
           });
         },

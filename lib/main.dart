@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:showing_cosmetics/category.dart';
+import 'package:showing_cosmetics/favorite.dart';
 import 'package:showing_cosmetics/home.dart';
 import 'package:showing_cosmetics/menu.dart';
 import 'package:showing_cosmetics/product.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/product': (context) => ProductPage(),
         '/menu': (context) => MenuPage(),
         '/category': (context) => CategoryPage(),
+        '/favorite': (context) => FavoritePage(),
       },
       initialRoute: '/home',
     );

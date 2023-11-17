@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'firestore_service.dart';
 import 'style.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,11 +14,25 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final db = FirebaseFirestore.instance;
-  final txtSearchCtrl = TextEditingController();
+
+  TextEditingController txtSearchCtrl = TextEditingController();
+
+  late String textoProcura = '';
   int selectedIndex = 1;
+
+  // Função chamada quando o texto da SearchBar é alterado
+  void onSearchTextChanged() {
+    textoProcura = '';
+    String searchText = txtSearchCtrl.text;
+
+    textoProcura = searchText;
+    setState(() {});
+  }
 
   @override
   void initState() {
+    txtSearchCtrl.addListener((onSearchTextChanged));
+
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -44,45 +59,54 @@ class HomePageState extends State<HomePage> {
     });
   }
 
+  List<String> favoriteProducts = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            header,
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              constraints: BoxConstraints(
-                maxHeight: 30,
-              ),
-              child: SearchBar(
-                backgroundColor: MaterialStateProperty.all(Color(0xFFB8ECBC)),
-                leading: Icon(Icons.search),
-                hintText: 'Procurar produto',
-                hintStyle: MaterialStateProperty.all(
-                  TextStyle(color: Colors.grey.withOpacity(0.5)),
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: db.collection('products').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return CircularProgressIndicator();
+
+            var docs = snapshot.data!.docs;
+
+            List<QueryDocumentSnapshot<Map<String, dynamic>>> filteredDocs =
+                docs
+                    .where((doc) => doc['name']
+                        .toString()
+                        .toLowerCase()
+                        .contains((textoProcura).toLowerCase()))
+                    .toList();
+            docs = filteredDocs;
+
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                header,
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  constraints: BoxConstraints(
+                    maxHeight: 30,
+                  ),
+                  child: SearchBar(
+                    backgroundColor:
+                        MaterialStateProperty.all(Color(0xFFB8ECBC)),
+                    leading: Icon(Icons.search),
+                    hintText: 'Procurar produto',
+                    hintStyle: MaterialStateProperty.all(
+                      TextStyle(color: Colors.grey.withOpacity(0.5)),
+                    ),
+                    controller: txtSearchCtrl,
+                  ),
                 ),
-                controller: txtSearchCtrl,
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-            ),
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: db
-                  .collection('products')
-                  .orderBy('class', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
-
-                var docs = snapshot.data!.docs;
-
-                return Expanded(
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                ),
+                Expanded(
                   child: ListView(
                     children: docs
                         .map(
@@ -156,17 +180,43 @@ class HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 10)
+                                SizedBox(height: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    final String productCode = doc['code'];
+
+                                    setState(() {
+                                      if (favoriteProducts
+                                          .contains(productCode)) {
+                                        favoriteProducts.remove(productCode);
+                                        FirestoreService()
+                                            .removeFromFavorites(productCode);
+                                      } else {
+                                        favoriteProducts.add(productCode);
+                                        FirestoreService()
+                                            .addToFavorites(productCode);
+                                      }
+                                    });
+                                  },
+                                  child: Icon(
+                                    favoriteProducts.contains(doc['code'])
+                                        ? Icons.star
+                                        : Icons.star_border,
+                                    color:
+                                        const Color.fromARGB(255, 79, 255, 59),
+                                    size: 30,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         )
                         .toList(),
                   ),
-                );
-              },
-            )
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -200,10 +250,9 @@ class HomePageState extends State<HomePage> {
               Navigator.of(context).pushNamed('/menu');
             } else if (index == 1) {
               Navigator.of(context).pushNamed('/home');
+            } else if (index == 2) {
+              Navigator.of(context).pushNamed('/favorite');
             }
-            //else if (index == 2) {
-            //   Navigator.of(context).pushNamed('/add');
-            // }
           });
         },
       ),
