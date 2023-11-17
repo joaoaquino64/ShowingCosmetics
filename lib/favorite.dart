@@ -68,7 +68,58 @@ class FavoritePageState extends State<FavoritePage> {
                     child: Text('Coleção dos Favoritos', style: titleStyle),
                   ),
                   SizedBox(height: 60, width: double.infinity),
-                  // Falta ListView() favoritos :/
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: db.collection('favorites').snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return CircularProgressIndicator();
+
+                      var docs = snapshot.data!.docs;
+
+                      return Expanded(
+                        child: ListView(
+                            children: docs
+                                .map((doc) => Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          color: Color(0xFF43C54D),
+                                          height: 1,
+                                        ),
+                                        SizedBox(height: 10),
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 40),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(doc['name'],
+                                                  style: categoryStyle),
+                                              SizedBox(
+                                                width: 50,
+                                                height: 50,
+                                                child: GestureDetector(
+                                                  onTap: () =>
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                              '/product',
+                                                              arguments:
+                                                                  doc['code']),
+                                                  child: Image.asset(
+                                                      'images/arrow_forward.png'),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ))
+                                .toList()),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -112,8 +163,8 @@ class FavoritePageState extends State<FavoritePage> {
     );
   }
 
-  void removeFromFavorites(String productCode) {
-    FirestoreService().removeFromFavorites(productCode);
+  void removeFromFavorites(String productName, String productCode) {
+    FirestoreService().removeFromFavorites(productName, productCode);
     setState(() {
       favoriteProducts.remove(productCode);
     });

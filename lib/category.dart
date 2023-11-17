@@ -125,17 +125,18 @@ class CategoryPageState extends State<CategoryPage> {
                               GestureDetector(
                                 onTap: () {
                                   final String productCode = doc['code'];
+                                  final String productName = doc['name'];
 
                                   setState(() {
                                     if (favoriteProducts
                                         .contains(productCode)) {
                                       favoriteProducts.remove(productCode);
-                                      FirestoreService()
-                                          .removeFromFavorites(productCode);
+                                      FirestoreService().removeFromFavorites(
+                                          productName, productCode);
                                     } else {
                                       favoriteProducts.add(productCode);
-                                      FirestoreService()
-                                          .addToFavorites(productCode);
+                                      FirestoreService().addToFavorites(
+                                          productName, productCode);
                                     }
                                   });
                                 },

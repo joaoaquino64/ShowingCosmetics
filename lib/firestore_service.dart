@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> addToFavorites(String productCode) async {
+  Future<void> addToFavorites(String productName, String productCode) async {
     try {
-      await _firestore.collection('favorites').doc(productCode).set({
+      await _firestore.collection('favorites').doc().set({
+        'name': productName,
         'code': productCode,
         'timestamp':
             FieldValue.serverTimestamp(), // Adicione um timestamp opcional
@@ -15,9 +16,10 @@ class FirestoreService {
     }
   }
 
-  Future<void> removeFromFavorites(String productCode) async {
+  Future<void> removeFromFavorites(
+      String productName, String productCode) async {
     try {
-      await _firestore.collection('favorites').doc(productCode).delete();
+      await _firestore.collection('favorites').doc().delete();
     } catch (e) {
       print('Erro ao remover favorito: $e');
     }
